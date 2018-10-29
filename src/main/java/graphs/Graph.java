@@ -77,7 +77,7 @@ public class Graph {
         }
     }
 
-    private void DFSRecUtil(int vertex, boolean[] visited) {
+    public void DFSRecUtil(int vertex, boolean[] visited) {
         System.out.println(""+vertex);
         visited[vertex]= true;
 
