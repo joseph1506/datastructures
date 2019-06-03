@@ -12,3 +12,4 @@ target/classes/dynamic/NStairsLogic.class
 target/classes/graphs/FindMotherVertex.class
 target/classes/graphs/Graph.class
 target/*
+.idea/datastructures.iml
