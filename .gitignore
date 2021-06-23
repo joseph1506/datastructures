@@ -13,3 +13,6 @@ target/classes/graphs/FindMotherVertex.class
 target/classes/graphs/Graph.class
 target/*
 .idea/datastructures.iml
+/.idea/jarRepositories.xml
+/.idea/uiDesigner.xml
+/.idea/.gitignore
