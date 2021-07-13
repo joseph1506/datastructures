@@ -76,4 +76,41 @@ public class SinglyLinkedList<K> {
         }
         return false;
     }
+
+    public Node deleteNew(K value){
+
+        if(length==0) return head;
+        if(head.value.equals(value)){
+            head=head.next;
+        } else {
+            Node prev=null;
+            Node curr=head;
+            boolean deleted= delete(prev,curr,value);
+        }
+        return head;
+    }
+
+    private boolean delete(Node prev, Node curr, K value) {
+        if(curr==null) return false;
+        if(curr.value.equals(value)){
+            prev.next=curr.next;
+            return true;
+        }else{
+            return delete(curr,curr.next,value);
+        }
+    }
+
+    public Node reverseList(){
+        if(length==0 || length==1) return head;
+
+        return reverse(head,null);
+    }
+
+    public Node reverse(Node current,Node prev){
+        if(current==null) return prev;
+
+        Node next= current.next;
+        current.next=prev;
+        return reverse(next,current);
+    }
 }

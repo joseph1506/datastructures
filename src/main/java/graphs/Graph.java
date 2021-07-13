@@ -1,8 +1,6 @@
 package graphs;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Stack;
+import java.util.*;
 
 public class Graph {
     int vertices;
@@ -18,6 +16,11 @@ public class Graph {
 
     public void addEdge(int v, int w){
         adj[v].add(w);
+    }
+
+    public void addEdgeBoth(int v, int w){
+        adj[v].add(w);
+        adj[w].add(v);
     }
 
     public void bfsTrav(int startVertex){
@@ -40,7 +43,6 @@ public class Graph {
                 }
             }
         }
-
     }
 
     public void dfsTrav(int start){
@@ -94,16 +96,128 @@ public class Graph {
     public static void main(String[] args)
     {
         // Total 5 vertices in graph
-        Graph g = new Graph(5);
+        Graph g = new Graph(8);
+        g.addEdge(0, 1);
+        g.addEdge(0, 3);
+        g.addEdge(0, 5);
 
         g.addEdge(1, 0);
-        g.addEdge(0, 2);
-        g.addEdge(2, 1);
-        g.addEdge(0, 3);
-        g.addEdge(1, 4);
+        g.addEdge(1, 6);
+        g.addEdge(1, 2);
+        g.addEdge(1, 5);
 
-        System.out.println("Following is the Depth First Traversal");
+        g.addEdge(2, 1);
+        g.addEdge(2, 7);
+
+        g.addEdge(3, 0);
+        g.addEdge(3, 4);
+
+        g.addEdge(4, 3);
+        g.addEdge(4, 5);
+
+        g.addEdge(5, 4);
+        g.addEdge(5, 0);
+        g.addEdge(5, 6);
+        g.addEdge(5, 1);
+
+        g.addEdge(6, 1);
+        g.addEdge(6, 5);
+        g.addEdge(6, 7);
+
+        g.addEdge(7, 6);
+        g.addEdge(7, 2);
+
+        /*System.out.println("Following is the Depth First Traversal");
         g.dfsTrav(0);
-        g.dfsTravRecursion();
+        g.dfsTravRecursion();*/
+
+        /*System.out.println(g);
+        int[] path= g.shortestPath(5);
+        int parent=5;
+        while(parent!=-1){
+            System.out.print(parent);
+            parent=path[parent];
+        }*/
+
+        g.gColorStart();
+
     }
+
+    public int[] shortestPath(int endVertex){
+        boolean[] visited=new boolean[this.vertices];
+        int[] parents= new int[this.vertices];
+
+        Queue<Integer> queue= new LinkedList<>();
+        queue.add(0);
+        visited[0]=true;
+        parents[0]=-1;
+
+        while(!queue.isEmpty()){
+            int node= queue.poll();
+            LinkedList<Integer> adjacency= this.adj[node];
+            while(!adjacency.isEmpty()){
+                int child= adjacency.poll();
+                if(!visited[child]){
+                    queue.offer(child);
+                    parents[child]=node;
+                    visited[child]=true;
+                }
+            }
+            visited[node]=true;
+        }
+        return parents;
+    }
+
+
+    // bipartite checking for graph
+    public void gColorStart(){
+        boolean[] visited= new boolean[this.vertices];
+        char[] colors= new char[this.vertices];
+        Arrays.fill(colors,'N');
+
+        for(int i=0;i<this.vertices;i++){
+            if(!visited[i]){
+                boolean flag= gColoring(i,visited,colors);
+                if(!flag){
+                    System.out.println("Failed");
+                }
+            }
+        }
+        System.out.println("Partite");
+        System.out.println(colors);
+    }
+
+    private boolean gColoring(int vertex, boolean[] visited, char[] colors) {
+        colors[vertex]='W';
+        Stack<Integer> stack= new Stack<>();
+        stack.push(vertex);
+
+        while(!stack.isEmpty()){
+            int node= stack.pop();
+
+            if(!visited[node]){
+                visited[node]=true;
+                System.out.println(node);
+            }
+
+
+            Iterator<Integer> adjacents= this.adj[node].iterator();
+            while(adjacents.hasNext()){
+                int adjacent= adjacents.next();
+                if(colors[adjacent]=='N'){
+                    colors[adjacent]=colors[node]=='W'?'B':'W';
+                } else{
+                    if(colors[node]==colors[adjacent]){
+                        return false;
+                    }
+                }
+                if(!visited[adjacent]){
+                    stack.add(adjacent);
+                }
+            }
+        }
+        return true;
+    }
+
+
 }
