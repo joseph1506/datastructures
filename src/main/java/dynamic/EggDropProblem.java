@@ -1,10 +1,39 @@
 package dynamic;
 
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class EggDropProblem {
     public static void main(String[] args) {
+        Map<String,Integer> floorEggTries= new HashMap<>();
         System.out.println(solveUsingDp(8,4));
+        System.out.println(eggDropRecursion(8,4,floorEggTries));
+
+        /*System.out.println(solveUsingDp(10,2));
+        System.out.println(eggDropRecursion(10,2));*/
+    }
+
+    private static int eggDropRecursion(int floors, int eggs, Map<String, Integer> floorEggTries) {
+        if(floorEggTries.containsKey(floors+"-"+eggs)) return floorEggTries.get(floors+"-"+eggs);
+
+        // if floors =1 or 0 and egg can be any number
+        if(floors==0|| floors==1){
+            return floors;
+        }
+        // if only one egg
+        if(eggs==1){
+            return floors;
+        }
+
+        int minTries=Integer.MAX_VALUE;
+        for(int x=1;x<=floors;x++){
+            int tries= Math.max(eggDropRecursion(x-1,eggs-1, floorEggTries),eggDropRecursion(floors-x,eggs, floorEggTries));
+            if(tries<minTries){
+                minTries=tries;
+            }
+        }
+        floorEggTries.put(floors+"-"+eggs,minTries+1);
+        return minTries+1;
     }
 
     private static int solveUsingDp(int n, int e) {
@@ -37,13 +66,15 @@ public class EggDropProblem {
         }
 
 
-        /*for(int i=1;i<n+1;i++){
+        for(int i=1;i<n+1;i++){
             for(int j=1;j<e+1;j++){
                 System.out.print(tries[i][j]+" ");
 
             }
             System.out.println("");
-        }*/
+        }
         return tries[n][e];
     }
+
+
 }
