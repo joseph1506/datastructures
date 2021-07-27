@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class LongCommSubsequence {
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         String input1 = "ABATD";
         String input2 = "CBCADDT";
         int[][] count = new int[input1.length()][input2.length()];
@@ -13,7 +13,7 @@ public class LongCommSubsequence {
         }
 
         System.out.println(findLengthLCS(input1, input2, input1.length(), input2.length(),count));
-    }
+    }*/
 
     private static int findLengthLCS(String input1, String input2, int m, int n, int[][] count) {
         if(count[m][n]!=-1) return count[m][n];
@@ -28,4 +28,29 @@ public class LongCommSubsequence {
         count[m][n]= result;
         return result;
     }
+
+
+    private static int lcsDynamic(char[] input1,char[] input2){
+        int[][] count= new int[input1.length+1][input2.length+1];
+
+        for(int i=1;i<count.length;i++){
+            for(int j=1;j<count[i].length;j++){
+                if(input1[i-1]==input2[j-1]){
+                    count[i][j]=1+ count[i-1][j-1];
+                } else {
+                    count[i][j]= Math.max(count[i-1][j],count[i][j-1]);
+                }
+            }
+        }
+
+        return count[input1.length][input2.length];
+    }
+
+    public static void main(String[] args) {
+        String input1="abcdaf";
+        String input2="acbcf";
+        System.out.println(lcsDynamic(input1.toCharArray(),input2.toCharArray()));
+
+    }
+
 }
