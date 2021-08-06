@@ -10,52 +10,37 @@ public class IslandsCount {
                 {0, 0, 0, 0, 0},
                 {1, 0, 1, 0, 1}
         };
-        int ROWS= 5;
-        int COLUMNS = 5;
+        /*int ROWS= 5;
+        int COLUMNS = 5;*/
 
-        System.out.println(countIslands(M,ROWS,COLUMNS));
+        System.out.println(countIslands(M));
     }
 
-    private static int countIslands(int[][] nodes,int ROWS, int COLUMNS) {
-        int count= 0;
-        boolean[][] visited = new boolean[ROWS][COLUMNS];
-        for(int i=0;i<ROWS;i++){
-            for(int j=0;j<COLUMNS;j++){
-                dfs(nodes,visited,i,j,ROWS,COLUMNS);
-                count++;
+    private static int countIslands(int[][] matrix) {
+        int islandCount= 0;
+        int vertices= matrix.length;
+        int edges=matrix[0].length;
+        boolean[][] visited = new boolean[vertices][edges];
+        for(int i=0;i<vertices;i++){
+            for(int j=0;j<edges;j++){
+                if(matrix[i][j]==1 && !visited[i][j]){
+                    markTheIsland(i,j,matrix,visited,vertices,edges);
+                    islandCount++;
+                }
             }
         }
-
-
-        return count;
+        return islandCount;
     }
 
-    private static void dfs(int[][] nodes, boolean[][] visited, int row, int column, int M, int N) {
-        int[] rowN = {-1,-1,-1,0,0,1,1,1};
-        int[] colN = {-1,0,1,-1,1,-1,0,1};
+    private static void markTheIsland(int row, int col,int[][] matrix, boolean[][] visited, int vertices, int edges) {
+        if(row<0||row>=vertices||col<0||col>=edges||visited[row][col]||matrix[row][col]!=1) return;
+        visited[row][col]=true;
 
-        visited[row][column] = true;
-
-        for(int i=0;i<8;i++){
-            if(isValid(nodes, row+rowN[i],column+colN[i],visited,M, N)){
-                dfs(nodes,visited,row+rowN[i],column+colN[i],M, N);
-            }
-        }
-
+        markTheIsland(row,col-1,matrix,visited,vertices,edges);
+        markTheIsland(row-1,col,matrix,visited,vertices,edges);
+        markTheIsland(row,col+1,matrix,visited,vertices,edges);
+        markTheIsland(row+1,col,matrix,visited,vertices,edges);
     }
 
-    private static boolean isValid(int[][] nodes, int row, int column, boolean[][] visited, int M, int N) {
-        if(row<0 || row >M){
-            return false;
-        }
-        if(column<0 || column>N){
-            return false;
-        }
-
-        if(visited[row][column]== true || nodes[row][column]!=1){
-            return false;
-        }
-        return true;
-    }
 
 }
