@@ -2,7 +2,7 @@ package graphs;
 
 import java.util.LinkedList;
 
-public class DetectCycle {
+public class DetectCycleDirectedGraph {
     public static void main(String[] args) {
         Graph g = new Graph(5);
 

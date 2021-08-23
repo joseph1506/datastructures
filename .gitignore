@@ -16,3 +16,4 @@ target/*
 /.idea/jarRepositories.xml
 /.idea/uiDesigner.xml
 /.idea/.gitignore
+/.idea/runConfigurations.xml
