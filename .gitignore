@@ -17,3 +17,4 @@ target/*
 /.idea/uiDesigner.xml
 /.idea/.gitignore
 /.idea/runConfigurations.xml
+/.idea/libraries/Maven__org_projectlombok_lombok_1_18_20.xml
